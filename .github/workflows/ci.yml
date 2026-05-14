@@ -2,7 +2,7 @@ name: CardGame CI Pipeline
 
 on:
   push:
-    branches: [ "main", "phase-3" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -18,8 +18,5 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Bağımlılıkları Yükle
-      run: dotnet restore
-
-    - name: Projeyi Derle (Build)
-      run: dotnet build --no-restore
+    - name: Projeyi Derle
+      run: dotnet build CardGame.csproj
