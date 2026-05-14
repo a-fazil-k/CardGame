@@ -1,16 +1,14 @@
-\# Faz 3: Behavioral Örüntüler - Yapay Zeka Logu (Pair Programming)
+# Faz 3: Davranışsal (Behavioral) Örüntüler - Yapay Zeka Logu (Pair Programming)
 
+**AI ile Pair Programming Süreci (40 Dakika):**
+Bu fazda, oyunun kazanma kurallarını (Standart vs. Hardcore) dinamik olarak nasıl değiştirebileceğimi ve maç sonuçlarını diğer sistemlere nasıl haber verebileceğimi AI ile tartıştım.
 
+**AI'ın Yönlendirmesi:**
+Kazanma kuralları için State ve Strategy örüntülerini karşılaştırdık. AI, kuralların dışarıdan enjekte edilebilmesi ve sadece bir algoritma değişikliği olması nedeniyle **Strategy** örüntüsünün daha uygun olduğunu belirtti. Maç sonuçlarının raporlanması için ise başlangıçta basit C# event yapılarını önerdi.
 
-\*\*AI ile Pair Programming Süreci (30 Dakika):\*\*
+**Benim Kararlarım:**
+AI'ın Strategy önerisini kabul ettim ve `SetWinningStrategy` metodunu `MatchFacade` sınıfı içine ekleyerek oyun motorunu durdurmadan kural değişikliği yapabilmeyi sağladım. Ancak raporlama kısmında, AI'ın "event" önerisi yerine ödevin amacına (Tasarım Örüntüleri) daha uygun olan ve daha genişletilebilir bir yapı sunan **Observer** örüntüsünü (interface tabanlı) kullanmaya karar verdim.
 
-Oyunun kazanma kurallarını (Standart vs. Zorlu mod) if-else kullanmadan dinamik olarak nasıl değiştirebileceğimi AI ile tartıştım.
-
-
-
-\*\*AI'ın Yönlendirmesi:\*\* State ve Strategy örüntülerini karşılaştırdık. AI, kuralların dışarıdan enjekte edilebilmesi ve sadece bir algoritma değişikliği olması sebebiyle Strategy örüntüsünün daha uygun olduğunu söyledi. `IWinningStrategy` arayüzü yazıp farklı kuralları bundan türetmemi önerdi.
-
-
-
-\*\*Benim Kararlarım:\*\* AI'ın önerdiği Strategy yapısını kurdum. Oyuncunun oyun sırasında mod değiştirebilmesi için Facade sınıfımın içine `SetWinningStrategy` metodunu ekledim. Böylece oyun motorunu durdurmadan kazanma kuralını anında değiştirebiliyoruz.
-
+**Kritik Değerlendirme:**
+* **AI olmadan bu faz ne kadar sürerdi?** Strategy ve Observer örüntülerinin entegrasyonu ve CI/CD pipeline süreçlerindeki derleme hatalarının manuel çözümü tahminen 4-5 saatimi alırdı. AI desteğiyle bu süreci yaklaşık 40 dakikada tamamladım.
+* **AI sizi nerede yanılttı?** AI başlangıçta Observer yerine daha basit olan event/delegate yapısını kullanmamı önerdi. Ancak ben "Behavioral Pattern" mantığını tam uygulamak ve akademik gereksinimleri karşılamak için klasik Observer yapısında ısrar ettim. Ayrıca CI yapılandırma dosyasında AI bazen güncel olmayan versiyonlar önerdi, bunları dokümantasyona bakarak manuel düzelttim.
