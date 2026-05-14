@@ -1,12 +1,14 @@
 # Tasarım Örüntüleri Belgelemesi
 
 ## Faz 1: Factory Method (Yaratımsal Örüntü)
-* **Nerede Kullanıldı:** `CardFactory` sınıfında, oyuncu ve düşman kartlarının (Kaleci, Defans, Forvet) yaratılma sürecinde kullanıldı.
-* **Neden Seçildi:** Önceden `GameManager` hangi kartın nasıl üretileceğini bilmek zorundaydı. Factory Method sayesinde üretim sorumluluğu tek bir merkeze alındı.
-* **Ne Kazanıldı:** Sisteme ileride "Orta Saha" gibi yeni bir kart tipi eklediğimde, sadece Fabrika'yı (CardFactory) güncellemem yetecek. `GameManager`'ın kodu hiç değişmeyecek (SRP sağlandı).
+* **Nerede Kullanıldı:** `CardFactory` sınıfı.
+* **Neden Seçildi:** `GameManager` hangi kartın nasıl üretileceğini bilmek zorundaydı. Üretim sorumluluğu Fabrika'ya alındı.
 
 ## Faz 2: Structural (Yapısal) Örüntüler
-* **1. Decorator (Dekoratör):** `PositionPenaltyDecorator` sınıfında kullanıldı. Kartların kendi mevkisinde oynamama durumundaki güç düşüşü (%60 ceza) if-else yığınları yerine dinamik bir sarmalayıcı (wrapper) ile çözüldü. Bu sayede OCP (Açık/Kapalı Prensibi) sağlandı.
-* **2. Facade (Cephe):** `MatchFacade` sınıfında kullanıldı. `GameManager`'ın içindeki karmaşık kart yaratma, dekoratörle sarmalama ve güç hesaplama işlemleri tek bir arayüzün arkasına gizlendi. İstemci (GameManager) sadece `SetupTeam` ve `CalculateAndShowResult` metotlarını çağırarak detaylardan izole edildi.
+* **1. Decorator:** `PositionPenaltyDecorator` sınıfı. Kendi mevkisinde oynamama durumundaki güç düşüşü (%60 ceza) dinamik bir sarmalayıcı ile çözüldü (OCP sağlandı).
+* **2. Facade:** `MatchFacade` sınıfı. İstemci (GameManager) karmaşık hesaplamalardan izole edildi.
 
-**(Not: UML diyagramları Faz 3 sonunda docs/diagrams klasörüne toplu eklenecektir.)**
+## Faz 3: Behavioral (Davranışsal) Örüntüler
+* **1. Strategy (Strateji):** `IWinningStrategy` arayüzü ve `StandardWinStrategy`, `HardcoreWinStrategy` sınıfları.
+* **Neden Seçildi:** Oyunun "maç kazanma kurallarını" koda gömmek yerine dışarıdan enjekte etmek istedik.
+* **Ne Kazanıldı:** Yeni bir oyun modu (örneğin "Altın Gol") eklendiğinde mevcut kodlara hiç dokunmadan sadece yeni bir strateji sınıfı yazmamız yetecek.
